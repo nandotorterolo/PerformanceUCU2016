@@ -14,10 +14,10 @@ Herramientas utilizadas. Gatling. http://gatling.io/#/
 
 Prueba con 1 usuario
 
-![alt text](https://github.com/nandotorterolo/PerformanceUCU2016/blob/master/testing/Users_1.png "Solido")
+![alt text](https://github.com/nandotorterolo/PerformanceUCU2016/blob/master/src/test/scala/testing/Users_1.png "Solido")
 
 Prueba con 50 usuarios
 
-![alt text](https://github.com/nandotorterolo/PerformanceUCU2016/blob/master/testing/Users_2.png "Solido")
+![alt text](https://github.com/nandotorterolo/PerformanceUCU2016/blob/master/src/test/scala/testing/Users_2.png "Solido")
 
 
