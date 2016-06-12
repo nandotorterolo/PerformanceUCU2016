@@ -13,9 +13,9 @@ Lo que vamos a hacer ahora es que tome el nombre del producto buscado desde una 
 Para esto debemos buscar dónde está el string "Macbook" en nuestro script y tomar ese valor de una variable que se alimenta de un archivo. En cada herramienta esto puede variar bastante.
 
 
-En gatling para esta funcionalidad estn los Feeders:
+En gatling para esta funcionalidad estan los Feeders:
 Hay distintos tipos, csv, json, ssv, jsonFile, jsonUrl, jdbc y rdis.
-Tambien se puede definir la estragia de busqueda, queue, shuffle, random, circular.
+También se puede definir la estragia de búsqueda, queue, shuffle, random, circular.
 En el archivo [testing.GrabacionConParameters] esta implementado tomar datos de un archivo Json y inyectarlo al scenario.
 Si queremos ver el resultado, o sea que valor se esta inyectando, vas a la configuracion de logging, [lockback.xml] y lo editamos para que grabe las request que se estan hacciendo.
 Este es el resultado de un request, tomando de un jsonFile, con estrategia queue (default).
@@ -39,14 +39,42 @@ Este es el resultado de un request, tomando de un jsonFile, con estrategia queue
 
 La tarea es correlacionar las variables que haga falta para que el script quede funcionando acorde.
 
+Gatrling tiene muchas formas de extraer informacion de la response, string, regex, xpath, jsonPath entre otras
+En este caso se hizo un check con una expresion regular, todos los script que tuvieran la forma de la linea de abajo, y se guardo como "idProduct"
+
+    check(regex("""cart.add\('([0-9]*)',""").saveAs("idProduct"))
+
+Luego se utilizara enviara en el formulario esta variable. 
+
+    .formParam("product_id", "${idProduct}")
+
+Nota: tener cuidado en scala el concepto de string interpolation. No poner la s. 
+
+    println(s"${variable}"
+
+http://gatling.io/docs/1.5.6/user_documentation/tutorial/advanced_usage.html
+
 # Control de flujo
 
 En todas las herramientas hay al menos estructuras de control de flujo básicas, como loops, if-then-else, etc. 
 
 La tarea consiste en verificar si la respuesta de la búsqueda es vacía, si es así cortar el script ahí, y si no es vacía entonces continúa. En el archivo de datos entonces se deberá agregar algún producto que no exista en el catálogo de productos de OpenCart para que de esa forma dé vacío.
+Supongamos que buscamos un producto, que no esta, por ejemplo "pelota"
 
 
-Notas, 
+    .check(regex("""cart.add\('([0-9]*)',""").exists.saveAs("idProduct"))
+
+    ---- Errors --------------------------------------------------------------------
+    > regex(cart.add\('([0-9]*)',).find(0).exists, found nothing          1 (50.00%)
+    > No attribute named 'idProduct' is defined                           1 (50.00%)
+    ================================================================================        
+    
+
+_Notas_ 
+
 Tarea para ejectutar simples escenarios
 
-gatling:testOnly testing.GrabacionConParameters
+    gatling:testOnly testing.GrabacionConParameters
+
+**Resource inferring**, Gatling can fetch resources in parallel in order to emulate the behaviour of a real web browser.
+At the protocol level, you can use inferHtmlResources methods, so Gatling will automatically parse HTML to find embedded resources and load them asynchronously.
