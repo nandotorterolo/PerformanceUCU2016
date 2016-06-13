@@ -15,6 +15,35 @@ Es importante armar una tabla y una gráfica con estos resultados para poder vis
 Toda observación que hagan sobre los tiempos obtenidos será valorada. Sería bueno complementar esta información con los tiempos mínimos, máximos y percentil 95.
 
 
+    val scn = scenario("Grabacion")
+        .repeat(30) {
+            ...
+        }
+        
+    
+    Simulation finished
+    Parsing log file(s)...
+    Parsing log file(s) done
+    Generating reports...
+    
+    ================================================================================
+    ---- Global Information --------------------------------------------------------
+    > request count                                       2355 (OK=2355   KO=0     )
+    > min response time                                    227 (OK=227    KO=-     )
+    > max response time                                   2755 (OK=2755   KO=-     )
+    > mean response time                                   390 (OK=390    KO=-     )
+    > std deviation                                        213 (OK=213    KO=-     )
+    > response time 50th percentile                        273 (OK=273    KO=-     )
+    > response time 75th percentile                        540 (OK=540    KO=-     )
+    > mean requests/sec                                  2.409 (OK=2.409  KO=-     )
+    ---- Response Time Distribution ------------------------------------------------
+    > t < 800 ms                                          2298 ( 98%)
+    > 800 ms < t < 1200 ms                                  38 (  2%)
+    > t > 1200 ms                                           19 (  1%)
+    > failed                                                 0 (  0%)
+    ================================================================================
+    
+    
 
 # Ejecución de escenario de carga
 
